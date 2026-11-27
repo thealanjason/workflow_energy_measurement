@@ -1,0 +1,32 @@
+# Parameters for heat_conduction_2d.py
+# The values below reproduce the reference problem specification.
+# n, seed, outdir and device can also be overridden on the command line.
+
+run:
+  n: 300                # interior grid points per dimension (N = n^2 unknowns, h = 1/(n+1))
+  seed: 0               # seed for numpy.random.default_rng (>= 0; null = random, recorded in run_record.json)
+  outdir: out           # output directory (relative to where you run the script)
+  device: auto          # auto (GPU if available, else CPU) | gpu | cpu
+
+# c(x,y) = base + A_c * sin(pi*k_x*x + phi_x) * sin(pi*k_y*y + phi_y)
+# base - max|amplitude_range| must be > 0, so that c > 0 and A stays positive definite.
+dissipation:
+  base: 2.0
+  amplitude_range: [0.5, 1.5]   # A_c ~ U(lo, hi)
+  frequency_range: [1, 3]       # k_x, k_y ~ uniform integers in [lo, hi] (inclusive)
+  phase_range_pi: [0.0, 2.0]    # phi_x, phi_y ~ U(lo*pi, hi*pi)
+
+# f(x,y) = sum_m q_m * exp(-((x-x_m)^2 + (y-y_m)^2) / (2 sigma^2))
+sources:
+  count: 5                      # M, number of Gaussian sources/sinks
+  sigma: 0.1                    # Gaussian width
+  strength_range: [-10.0, 10.0] # q_m ~ U(lo, hi)   (q > 0 source, q < 0 sink)
+  position_range: [0.15, 0.85]  # x_m, y_m ~ U(lo, hi)
+
+solver:
+  tolerance: 1.0e-8             # stop when ||Ax - b|| / ||b|| < tolerance
+  max_iterations: 10000
+
+plot:
+  colormap: RdBu_r              # any matplotlib colormap name
+  dpi: 300

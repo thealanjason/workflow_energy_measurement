@@ -1,0 +1,13 @@
+name: 2d_ss_heat_cond
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - numpy
+  - scipy
+  - matplotlib
+  - pyyaml
+  # GPU solver (Linux/Windows with an NVIDIA GPU only).
+  # Uncomment both lines before creating the environment on such a machine:
+  # - cupy
+  # - cuda-version=12
